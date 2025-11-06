@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const UserModel = require("../models/User");
+const jwt = require('jsonwebtoken');
 
 // Signup Controller
 const signupController = async (req, res) => {
@@ -45,4 +46,53 @@ const signupController = async (req, res) => {
     }
 };
 
-module.exports = { signupController };
+const loginController = async (req, res) => {
+
+    try {
+        const { email, password } = req.body;
+
+        // Check if user already exists
+        const isPresent = await UserModel.findOne({ email });
+        if (!isPresent) {
+            return res.status(400).json({
+                success: false,
+                message: "No User Found.",
+            });
+        }
+
+        // compare password
+        const isMatch = await bcrypt.compare(password, isPresent.password);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "Incorrect Password.",
+            });
+        }
+
+        // setting jwt token
+        const token = jwt.sign({ userId: isPresent._id, userEmail: isPresent.email }, process.env.JWT_SECRET);
+
+
+        // setting token into cookie
+        res.cookie('Token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+
+        // Send success response
+        res.status(200).json({ message: 'Login Successfull', success: true })
+
+    } catch (err) {
+        console.error("Signup error:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
+
+
+module.exports = { signupController, loginController };
