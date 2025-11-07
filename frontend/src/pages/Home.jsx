@@ -4,14 +4,12 @@ import Footer from '../components/Footer'
 
 const Home = () => {
 
-
   const [stats, setStats] = useState([
     { id: 1, title: "New Tasks", number: 13 },
     { id: 2, title: "Completed Tasks", number: 8 },
     { id: 3, title: "Accepted Tasks", number: 4 },
     { id: 3, title: "Failed Tasks", number: 1 },
   ]);
-
 
   const [tasks, setTasks] = useState([
     {
@@ -60,7 +58,6 @@ const Home = () => {
       status: "Failed",
     },
   ]);
-
 
   return (
     <div>

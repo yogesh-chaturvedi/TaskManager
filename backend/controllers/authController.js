@@ -46,6 +46,7 @@ const signupController = async (req, res) => {
     }
 };
 
+// login controller 
 const loginController = async (req, res) => {
 
     try {
@@ -94,5 +95,28 @@ const loginController = async (req, res) => {
     }
 };
 
+// logout controllers
+const logoutController = async (req, res) => {
 
-module.exports = { signupController, loginController };
+    try {
+        // clearing token from cookie
+        res.clearCookie('Token', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+        })
+
+        // Send success response
+        res.status(200).json({ message: 'Logout Successfull', success: true })
+
+    } catch (err) {
+        console.error("logout error:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
+
+
+module.exports = { signupController, loginController, logoutController };
