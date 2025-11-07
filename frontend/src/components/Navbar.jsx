@@ -39,12 +39,9 @@ const Navbar = () => {
 
             <nav className="w-full px-28 bg-gray-800 shadow-md py-4 flex justify-between items-center">
 
-
-
                 {/* Left: Logo / App Name */}
 
                 <h1 className="text-2xl font-bold text-blue-600">TaskManager</h1>
-
 
                 {/* Right: Logout Button */}
                 <button

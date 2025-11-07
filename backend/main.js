@@ -5,8 +5,13 @@ dotenv.config();
 require('./config/db')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 const AuthRouters = require('./routes/AuthRoutes')
+const UserRouters = require('./routes/UserRoute')
 
+
+
+app.use(cookieParser())
 app.use(cors({
     origin: process.env.ORIGIN,
     credentials: true,
@@ -22,6 +27,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/auth', AuthRouters)
+app.use('/users', UserRouters)
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

@@ -1,10 +1,12 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
 
+
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: '',
         password: ''
@@ -41,6 +43,7 @@ const Login = () => {
                     theme: "dark",
                 });
                 setLoginData({ name: '', email: '', password: '' })
+                navigate('/')
             }
         }
         catch (error) {
