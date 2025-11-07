@@ -83,8 +83,10 @@ const loginController = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         })
 
+        const { _id, name, role } = isPresent;
+
         // Send success response
-        res.status(200).json({ message: 'Login Successfull', success: true })
+        res.status(200).json({ message: 'Login Successfull', success: true, UserData:{ _id, name, role } })
 
     } catch (err) {
         console.error("Signup error:", err.message);

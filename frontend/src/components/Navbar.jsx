@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { LogOut } from 'lucide-react'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
+
+    const navigate = useNavigate();
+
+    const { user, setUser, loading, setLoading, fetchUser } = useContext(AuthContext)
 
     // logout function
     async function handleLogout() {
@@ -15,6 +21,7 @@ const Navbar = () => {
             })
             const { message, success } = response.data;
             if (success) {
+                setUser(null)
                 toast(message, {
                     position: "top-center",
                     autoClose: 500,
@@ -25,6 +32,7 @@ const Navbar = () => {
                     progress: undefined,
                     theme: "dark",
                 });
+                navigate('/login')
             }
         }
         catch (error) {

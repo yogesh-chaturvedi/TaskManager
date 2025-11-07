@@ -5,6 +5,8 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Home from './pages/Home'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminProtectedRoute from './components/AdminProtectedRoute'
 
 function App() {
 
@@ -17,7 +19,14 @@ function App() {
 
       {/* protected Routes */}
       <Route element={<ProtectedRoute />}>
+        <Route path='/home' element={<Home />} />
         <Route path='/' element={<Home />} />
+      </Route>
+
+
+      {/* protected Routes */}
+      <Route element={<AdminProtectedRoute />}>
+        <Route path='/AdminDashboard' element={<AdminDashboard />} />
       </Route>
 
     </Routes>

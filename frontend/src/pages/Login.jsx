@@ -1,10 +1,12 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
-
+    const { user, setUser, loading, setLoading, fetchUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
@@ -29,9 +31,10 @@ const Login = () => {
                 data: loginData,
                 withCredentials: true
             })
-            const { message, success } = resposne.data;
+            const { message, success, UserData } = resposne.data;
             if (success) {
                 console.log(message);
+                console.log('UserData', UserData)
                 toast(message, {
                     position: "top-center",
                     autoClose: 500,
@@ -42,8 +45,17 @@ const Login = () => {
                     progress: undefined,
                     theme: "dark",
                 });
+                setUser(UserData)
+                setTimeout(() => {
+                    if (UserData.role == "user") {
+                        navigate('/home');
+                    }
+                    else if (UserData.role == "admin") {
+                        navigate('/AdminDashboard')
+                    }
+                }, 300);
+
                 setLoginData({ name: '', email: '', password: '' })
-                navigate('/')
             }
         }
         catch (error) {

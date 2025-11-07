@@ -10,6 +10,7 @@ const AuthContextProvider = (props) => {
     const [user, setUser] = useState(null);    // To store loggedIn user's data
     const [loading, setLoading] = useState(true)
 
+    console.log(user)
 
     // To fetch user 
     async function fetchUser() {
@@ -27,6 +28,7 @@ const AuthContextProvider = (props) => {
         }
         catch (error) {
             console.error('FetchUser error', error)
+            setUser(null);
         }
         finally {
             setLoading(false);

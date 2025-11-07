@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext'
 import { Navigate, Outlet } from 'react-router-dom'
 
 
-const ProtectedRoute = () => {
+const AdminProtectedRoute = () => {
 
     const { user, loading } = useContext(AuthContext)
 
@@ -14,8 +14,8 @@ const ProtectedRoute = () => {
             </div>
         )
     }
-    return user && user.role==='user' ? <Outlet /> : <Navigate to='/login' replace />
+    return user && user.role === 'admin' ? <Outlet /> : <Navigate to='/login' replace />
 
 }
 
-export default ProtectedRoute
+export default AdminProtectedRoute
