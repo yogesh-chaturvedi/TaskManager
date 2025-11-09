@@ -63,19 +63,29 @@ const AdminDashboard = () => {
 
     return (
         <div>
-
-            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
 
             <Navbar />
 
             {/* admins dashboard */}
-            <div className='min-h-[calc(100vh-70px)] flex flex-col gap-4 bg-black px-16 py-4'>
+            <div className='min-h-[calc(100vh-70px)] flex flex-col gap-4 bg-black px-4 sm:px-8 md:px-16 py-4'>
 
                 {/* Top */}
-                <div className="bg-gray-800 text-white px-8 py-5 rounded-2xl shadow-lg flex gap-8 ">
+                <div className="bg-gray-800 text-white px-4 sm:px-8 py-5 rounded-2xl shadow-lg flex flex-col lg:flex-row gap-6">
 
                     {/* Left side */}
-                    <div className="flex flex-col gap-2 w-1/2">
+                    <div className="flex flex-col gap-2 w-full lg:w-1/2">
                         {/* Task Title */}
                         <div className="flex flex-col">
                             <label className="font-semibold mb-1">Task Title</label>
@@ -129,7 +139,7 @@ const AdminDashboard = () => {
                     </div>
 
                     {/* Right side */}
-                    <div className="flex flex-col w-1/2">
+                    <div className="flex flex-col w-full lg:w-1/2">
                         <label className="font-semibold mb-2">Description</label>
                         <textarea
                             value={taskDetails.taskDescription}
@@ -141,48 +151,47 @@ const AdminDashboard = () => {
                         ></textarea>
 
                         <button
-                            onClick={() => { handleCreateTask() }}
+                            onClick={handleCreateTask}
                             type='submit'
-                            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-all duration-200">
+                            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-all duration-200"
+                        >
                             Create Task
                         </button>
                     </div>
                 </div>
 
                 {/* table */}
-                <div className="bg-gray-800 text-white px-8 py-5 rounded-2xl max-h-[300px] shadow-lg overflow-y-auto">
+                <div className="bg-gray-800 text-white px-4 sm:px-8 py-5 rounded-2xl max-h-[300px] shadow-lg overflow-x-auto">
+                    <h2 className="text-2xl font-bold mb-4 text-center lg:text-left">Employee Task Overview</h2>
 
-                    <h2 className="text-2xl font-bold mb-4">Employee Task Overview</h2>
-
-                    <table className="min-w-full border border-gray-700 rounded-lg overflow-hidden">
+                    <table className="min-w-full border border-gray-700 rounded-lg overflow-hidden table-auto">
                         <thead className="bg-gray-700">
                             <tr>
-                                <th className="py-3 px-4 text-left">Employee Name</th>
-                                <th className="py-3 px-4 text-left">New Task</th>
-                                <th className="py-3 px-4 text-left">Active Task</th>
-                                <th className="py-3 px-4 text-left">Completed</th>
-                                <th className="py-3 px-4 text-left">Failed</th>
+                                <th className="py-3 px-2 sm:px-4 text-left">Employee Name</th>
+                                <th className="py-3 px-2 sm:px-4 text-left">New Task</th>
+                                <th className="py-3 px-2 sm:px-4 text-left">Active Task</th>
+                                <th className="py-3 px-2 sm:px-4 text-left">Completed</th>
+                                <th className="py-3 px-2 sm:px-4 text-left">Failed</th>
                             </tr>
                         </thead>
 
                         <tbody>
-
-                            {allUsers.map((users, index) => {
-                                return (<tr key={index} className="hover:bg-gray-700 transition">
-                                    <td className="py-3 px-4 border-t border-gray-700">{users.name}</td>
-                                    <td className="py-3 px-4 border-t border-gray-700">{users.stats?.New || 0}</td>
-                                    <td className="py-3 px-4 border-t border-gray-700">{users.stats?.Active || 0}</td>
-                                    <td className="py-3 px-4 border-t border-gray-700 text-green-400">{users.stats?.Completed || 0}</td>
-                                    <td className="py-3 px-4 border-t border-gray-700 text-red-400">{users.stats?.Failed || 0}</td>
-                                </tr>)
-                            })}
-
+                            {allUsers.map((users, index) => (
+                                <tr key={index} className="hover:bg-gray-700 transition">
+                                    <td className="py-2 px-2 sm:px-4 border-t border-gray-700">{users.name}</td>
+                                    <td className="py-2 px-2 sm:px-4 border-t border-gray-700">{users.stats?.New || 0}</td>
+                                    <td className="py-2 px-2 sm:px-4 border-t border-gray-700">{users.stats?.Active || 0}</td>
+                                    <td className="py-2 px-2 sm:px-4 border-t border-gray-700 text-green-400">{users.stats?.Completed || 0}</td>
+                                    <td className="py-2 px-2 sm:px-4 border-t border-gray-700 text-red-400">{users.stats?.Failed || 0}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
 
             </div>
         </div>
+
     )
 }
 
