@@ -17,7 +17,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ["user", "admin"],
         default: "user",
-    }
+    },
+    tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tasks'
+    }]
 });
 
 const User = mongoose.model('User', UserSchema);

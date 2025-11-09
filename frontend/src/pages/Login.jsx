@@ -4,9 +4,14 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext';
+import { TaskContext } from '../context/TasksContext';
 
 const Login = () => {
-    const { user, setUser, loading, setLoading, fetchUser } = useContext(AuthContext);
+
+
+    const { user, setUser, loading, setLoading, verify } = useContext(AuthContext);
+    const { getTasks } = useContext(TaskContext);
+
 
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
@@ -14,9 +19,11 @@ const Login = () => {
         password: ''
     })
 
+
     function handleChange(e) {
         setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
+
 
     console.log('loginData', loginData);
 
@@ -35,6 +42,7 @@ const Login = () => {
             if (success) {
                 console.log(message);
                 console.log('UserData', UserData)
+                
                 toast(message, {
                     position: "top-center",
                     autoClose: 500,
@@ -62,6 +70,7 @@ const Login = () => {
             console.error('error', error);
         }
     }
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">

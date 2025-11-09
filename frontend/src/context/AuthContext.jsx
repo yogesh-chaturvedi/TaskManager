@@ -10,14 +10,14 @@ const AuthContextProvider = (props) => {
     const [user, setUser] = useState(null);    // To store loggedIn user's data
     const [loading, setLoading] = useState(true)
 
-    console.log(user)
+    console.log('logedIn user', user);
 
     // To fetch user 
-    async function fetchUser() {
+    async function verify() {
         try {
             const response = await axios({
                 method: 'get',
-                url: `${import.meta.env.VITE_BASE_URL}users/fetch`,
+                url: `${import.meta.env.VITE_BASE_URL}users/verify`,
                 withCredentials: true
             })
             const { message, success, userData } = response.data;
@@ -36,12 +36,11 @@ const AuthContextProvider = (props) => {
     }
 
     useEffect(() => {
-        fetchUser();
+        verify();
     }, [])
 
 
-
-    const value = { user, setUser, loading, setLoading, fetchUser };
+    const value = { user, setUser, loading, setLoading, verify };
 
     return (
         <AuthContext.Provider value={value}>
