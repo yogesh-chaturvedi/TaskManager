@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
         enum: ["user", "admin"],
         default: "user",
     },
+    profileImage: {
+        type: String,
+        default: 'https://cdn-icons-png.flaticon.com/512/847/847969.png'
+    },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tasks'
