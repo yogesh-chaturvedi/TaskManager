@@ -185,8 +185,7 @@ const Home = () => {
                     <button
                       onClick={() => handleStatus(task._id, 'In Progress')}
                       className={`${task.taskStatus === 'In Progress' ? 'bg-gray-500 line-through' : 'bg-yellow-500 hover:bg-yellow-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
-                    >
-                      In Progress
+                    >In Progress
                     </button>
 
                     <button
