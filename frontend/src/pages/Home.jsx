@@ -102,25 +102,23 @@ const Home = () => {
       <Navbar />
 
       {/* home */}
-      <div className='bg-black flex flex-col gap-5 px-16 py-5 min-h-[calc(100vh-70px)]'>
+      <div className='bg-black flex flex-col gap-5 px-4 sm:px-8 md:px-16 py-5 min-h-[calc(100vh-70px)]'>
 
         {/* work status */}
-        <div className='flex justify-between'>
-
-          {stats.map((data, index) => {
-            return (
-              <div key={data.id} className="bg-gray-900 text-gray-200  shadow-md rounded-2xl p-6 w-60 text-center hover:shadow-lg transition-all duration-300">
-                <h3 className="text-blue-600 font-semibold text-2xl mb-2">{data.title}</h3>
-                <p className="text-3xl font-bold text-blue-600">{data.number}</p>
-              </div>
-            )
-          })}
-
+        <div className='flex flex-wrap justify-between gap-4'>
+          {stats.map((data) => (
+            <div
+              key={data.id}
+              className="bg-gray-900 text-gray-200 shadow-md rounded-2xl p-6 w-full sm:w-[48%] md:w-60 text-center hover:shadow-lg transition-all duration-300"
+            >
+              <h3 className="text-blue-600 font-semibold text-2xl mb-2">{data.title}</h3>
+              <p className="text-3xl font-bold text-blue-600">{data.number}</p>
+            </div>
+          ))}
         </div>
 
-
         {/* Search */}
-        <div className="flex items-center bg-gray-800 rounded-full overflow-hidden w-full max-w-md">
+        <div className="flex items-center bg-gray-800 rounded-full overflow-hidden w-full max-w-md mx-auto">
           <input
             value={searchedText}
             onChange={handleChange}
@@ -129,28 +127,31 @@ const Home = () => {
             placeholder="Search..."
             className="flex-1 px-4 py-2 text-gray-200 bg-gray-800 placeholder-gray-400 focus:outline-none"
           />
-          <button onClick={() => { handleSearch() }} className="flex items-center justify-center bg-yellow-500 px-4 py-2.5 hover:bg-yellow-600 transition-all">
+          <button
+            onClick={handleSearch}
+            className="flex items-center justify-center bg-yellow-500 px-4 py-2.5 hover:bg-yellow-600 transition-all"
+          >
             <Search size={20} className="text-gray-900" />
           </button>
         </div>
 
         {/* cards */}
         <div className='p-5 rounded-xl'>
-          <h1 className='mb-4 text-red-600 font-extrabold text-3xl'>Tasks</h1>
+          <h1 className='mb-4 text-red-600 font-extrabold text-3xl text-center md:text-left'>Tasks</h1>
 
           {/* 🔹 Conditional Rendering */}
           {allTasks.length === 0 ? (
             <p className='text-white text-4xl text-center'>No Task Assigned Yet</p>
           ) : (
-            <div className='flex flex-wrap max-h-[355px] overflow-y-auto gap-6 justify-start'>
+            <div className='flex flex-wrap max-h-[355px] overflow-y-auto gap-4 justify-start'>
               {allTasks.map((task, index) => (
                 <div
                   key={index}
-                  className="bg-gray-900 text-gray-200 shadow-md rounded-2xl p-5 border border-gray-700 hover:shadow-lg transition-all duration-300 w-[32%] flex-shrink-0"
+                  className="bg-gray-900 text-gray-200 shadow-md rounded-2xl p-5 border border-gray-700 hover:shadow-lg transition-all duration-300 w-full sm:w-[48%] md:w-[32%] flex-shrink-0"
                 >
                   {/* 🔹 Top Section */}
-                  <div className="flex justify-between items-center mb-3">
-                    <div className='flex gap-3 items-center'>
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2 sm:gap-0">
+                    <div className='flex gap-3 items-center flex-wrap'>
                       <span className="bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full">
                         {task.taskCategory}
                       </span>
@@ -168,32 +169,29 @@ const Home = () => {
 
                   {/* 🔹 Title & Description */}
                   <h2 className="text-lg font-semibold text-white">{task.taskTitle}</h2>
-                  <p className="text-gray-400 text-sm mt-2 overflow-x-auto ">
+                  <p className="text-gray-400 text-sm mt-2 overflow-x-auto break-words">
                     {task.taskDescription}
                   </p>
 
                   {/* 🔹 Action Buttons */}
-                  <div className="flex justify-between mt-5">
+                  <div className="flex flex-wrap gap-2 justify-between mt-5">
                     <button
                       onClick={() => handleStatus(task._id, 'Completed')}
-                      className={`${task.taskStatus === 'Completed' ? 'bg-gray-500 line-through' : 'bg-green-500 hover:bg-green-600'
-                        } text-white text-sm px-3 py-2 rounded-lg transition`}
+                      className={`${task.taskStatus === 'Completed' ? 'bg-gray-500 line-through' : 'bg-green-500 hover:bg-green-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
                     >
                       Completed
                     </button>
 
                     <button
                       onClick={() => handleStatus(task._id, 'In Progress')}
-                      className={`${task.taskStatus === 'In Progress' ? 'bg-gray-500 line-through' : 'bg-yellow-500 hover:bg-yellow-600'
-                        } text-white text-sm px-3 py-2 rounded-lg transition`}
+                      className={`${task.taskStatus === 'In Progress' ? 'bg-gray-500 line-through' : 'bg-yellow-500 hover:bg-yellow-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
                     >
                       In Progress
                     </button>
 
                     <button
                       onClick={() => handleStatus(task._id, 'Failed')}
-                      className={`${task.taskStatus === 'Failed' ? 'bg-gray-500 line-through' : 'bg-red-500 hover:bg-red-600'
-                        } text-white text-sm px-3 py-2 rounded-lg transition`}
+                      className={`${task.taskStatus === 'Failed' ? 'bg-gray-500 line-through' : 'bg-red-500 hover:bg-red-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
                     >
                       Failed
                     </button>
@@ -201,15 +199,11 @@ const Home = () => {
                 </div>
               ))}
             </div>
-
           )}
         </div>
-
-
-
       </div>
-
     </div>
+
   )
 }
 

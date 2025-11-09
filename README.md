@@ -1,10 +1,13 @@
 # TaskManager
 **TaskManager** This is a Full-Stack Task Manager application that allows Admins to assign tasks to Users, and users can track the status of their tasks. The application uses JWT authentication to secure routes and features. Admins and users have separate dashboards to manage and view tasks effectively.
 
+# Note
+Admin only can assign a task to an user who have created there account.
+
 
 ## 🌐 Live Demo
 
-👉 [Visit LearnifyAI Live](https://learnifyai-phi-azure.vercel.app/)
+👉 [Visit TaskManager Live](https://task-manager-blond-kappa.vercel.app)
 
 
 ---
@@ -45,7 +48,7 @@ npm install
 
 #Create a .env file in the backend directory
 PORT=3000
-MONGODB_URI=your_mongodb_uri
+MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
 
 npm run dev
