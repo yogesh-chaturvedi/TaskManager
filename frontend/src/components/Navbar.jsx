@@ -42,7 +42,6 @@ const Navbar = () => {
         }
     }
 
-
     function handleOpen() {
         if (open == true) {
             setOpen(false);
@@ -52,12 +51,10 @@ const Navbar = () => {
         }
     }
 
-
-    function handleProfile(){
+    function handleProfile() {
         navigate('/profile')
     }
 
-    console.log(open)
     return (
         <main>
             <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
@@ -90,19 +87,15 @@ const Navbar = () => {
                                     U
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-white text-sm">John Doe</p>
-                                    <p className="text-xs text-gray-400">john.doe@example.com</p>
+                                    <p className="font-semibold text-white text-sm">{user.name}</p>
+                                    <p className="text-xs text-gray-400">{user.email}</p>
                                 </div>
                             </div>
 
                             {/* Buttons */}
                             <div className="flex flex-col gap-2">
-                                <button onClick={()=>{handleProfile()}} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 text-sm">
+                                <button onClick={() => { handleProfile() }} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 text-sm">
                                     <User size={16} /> Profile
-                                </button>
-
-                                <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 text-sm">
-                                    <Settings size={16} /> Settings
                                 </button>
 
                                 <button

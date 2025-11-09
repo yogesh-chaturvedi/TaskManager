@@ -10,7 +10,6 @@ const TaskContextProvider = (props) => {
     const { allUsers, setAllUsers } = useContext(UserContext)
     const [allTasks, setAllTasks] = useState([])
 
-    console.log('allTasks', allTasks);
 
     // to get all tasks
     async function getTasks() {

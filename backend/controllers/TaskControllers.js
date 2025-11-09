@@ -79,7 +79,7 @@ const getAllTasks = async (req, res) => {
 };
 
 // update task
-const UpdateTask = async (req, res) => {
+const updateTask = async (req, res) => {
     try {
         const { taskId, status } = req.body;
         console.log('taskId', taskId)
@@ -113,5 +113,44 @@ const UpdateTask = async (req, res) => {
 };
 
 
+// to search task 
+const searchTask = async (req, res) => {
+    try {
+        const { searchedText } = req.body;
 
-module.exports = { createTask, getAllTasks, UpdateTask }
+        // to check is search text is present or not 
+        if (!searchedText || searchedText.trim() === "") {
+            return res.status(400).json({
+                message: "Search text is required",
+                success: false
+            });
+        }
+
+        // Search in taskTitle or taskDescription
+        const tasks = await TaskModel.find({
+            $or: [
+                { taskTitle: { $regex: searchedText, $options: "i" } },
+                { taskDescription: { $regex: searchedText, $options: "i" } }
+            ]
+        });
+
+        res.status(200).json({
+            message: "Tasks fetched successfully",
+            success: true,
+            tasks
+        });
+
+
+    } catch (error) {
+        console.error('UpdateTask error:', error);
+        res.status(500).json({
+            message: 'Internal server error while fetching tasks',
+            success: false,
+            error: error.message,
+        });
+    }
+}
+
+
+
+module.exports = { createTask, getAllTasks, updateTask, searchTask }

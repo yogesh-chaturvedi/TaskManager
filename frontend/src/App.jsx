@@ -29,7 +29,6 @@ function App() {
       {/* protected Routes */}
       <Route element={<AdminProtectedRoute />}>
         <Route path='/AdminDashboard' element={<AdminDashboard />} />
-        <Route path='/profile' element={<Profile />} />
       </Route>
 
     </Routes>

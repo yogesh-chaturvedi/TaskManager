@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import { TaskContext } from '../context/TasksContext';
@@ -151,7 +150,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* table */}
-                <div className="bg-gray-800 text-white px-8 py-5 rounded-2xl shadow-lg overflow-x-auto">
+                <div className="bg-gray-800 text-white px-8 py-5 rounded-2xl max-h-[300px] shadow-lg overflow-y-auto">
 
                     <h2 className="text-2xl font-bold mb-4">Employee Task Overview</h2>
 
@@ -183,8 +182,6 @@ const AdminDashboard = () => {
                 </div>
 
             </div>
-
-            {/* <Footer /> */}
         </div>
     )
 }

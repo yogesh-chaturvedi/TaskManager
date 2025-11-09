@@ -10,7 +10,6 @@ const AuthContextProvider = (props) => {
     const [user, setUser] = useState(null);    // To store loggedIn user's data
     const [loading, setLoading] = useState(true)
 
-    console.log('logedIn user', user);
 
     // To fetch user 
     async function verify() {

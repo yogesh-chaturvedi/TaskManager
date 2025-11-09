@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import { TaskContext } from '../context/TasksContext'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
+import { Search } from 'lucide-react';
 
 const Home = () => {
 
 
   const { allTasks, setAllTasks, getTasks } = useContext(TaskContext);
-
+  const [searchedText, setSearchedText] = useState('')
 
   const [stats, setStats] = useState([
     { id: 1, title: "New Tasks", number: 0 },
@@ -58,8 +58,8 @@ const Home = () => {
 
     setStats([
       { id: 1, title: "New Tasks", number: New },
-      { id: 2, title: "Completed Tasks", number: Active },
-      { id: 3, title: "Accepted Tasks", number: Completed },
+      { id: 2, title: "Completed Tasks", number: Completed },
+      { id: 3, title: "Accepted Tasks", number: Active },
       { id: 4, title: "Failed Tasks", number: Failed },
     ]);
 
@@ -70,6 +70,31 @@ const Home = () => {
   useEffect(() => {
     getTasks();
   }, [])
+
+
+  function handleChange(e) {
+    setSearchedText(e.target.value)
+  }
+
+  // to search tasks 
+  async function handleSearch() {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${import.meta.env.VITE_BASE_URL}task/search`,
+        data: { searchedText },
+        withCredentials: true
+      })
+      const { message, success, tasks } = response.data;
+      if (success) {
+        console.log(message);
+        setAllTasks(tasks);
+      }
+    }
+    catch (error) {
+      console.error("Complete function error", error)
+    }
+  }
 
 
   return (
@@ -93,6 +118,22 @@ const Home = () => {
 
         </div>
 
+
+        {/* Search */}
+        <div className="flex items-center bg-gray-800 rounded-full overflow-hidden w-full max-w-md">
+          <input
+            value={searchedText}
+            onChange={handleChange}
+            name='searchedText'
+            type="text"
+            placeholder="Search..."
+            className="flex-1 px-4 py-2 text-gray-200 bg-gray-800 placeholder-gray-400 focus:outline-none"
+          />
+          <button onClick={() => { handleSearch() }} className="flex items-center justify-center bg-yellow-500 px-4 py-2.5 hover:bg-yellow-600 transition-all">
+            <Search size={20} className="text-gray-900" />
+          </button>
+        </div>
+
         {/* cards */}
         <div className='p-5 rounded-xl'>
           <h1 className='mb-4 text-red-600 font-extrabold text-3xl'>Tasks</h1>
@@ -101,7 +142,7 @@ const Home = () => {
           {allTasks.length === 0 ? (
             <p className='text-white text-4xl text-center'>No Task Assigned Yet</p>
           ) : (
-            <div className='max-h-[425px] overflow-y-auto flex flex-wrap gap-6 justify-start'>
+            <div className='flex flex-wrap max-h-[355px] overflow-y-auto gap-6 justify-start'>
               {allTasks.map((task, index) => (
                 <div
                   key={index}
@@ -127,7 +168,9 @@ const Home = () => {
 
                   {/* 🔹 Title & Description */}
                   <h2 className="text-lg font-semibold text-white">{task.taskTitle}</h2>
-                  <p className="text-gray-400 text-sm mt-2 overflow-x-auto">{task.taskDescription}</p>
+                  <p className="text-gray-400 text-sm mt-2 overflow-x-auto ">
+                    {task.taskDescription}
+                  </p>
 
                   {/* 🔹 Action Buttons */}
                   <div className="flex justify-between mt-5">
@@ -158,13 +201,14 @@ const Home = () => {
                 </div>
               ))}
             </div>
+
           )}
         </div>
 
 
 
       </div>
-      {/* <Footer /> */}
+
     </div>
   )
 }

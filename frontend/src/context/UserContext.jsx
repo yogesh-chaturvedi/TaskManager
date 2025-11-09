@@ -6,8 +6,8 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
 
     const [allUsers, setAllUsers] = useState([]);
-    console.log('allUsers', allUsers)
 
+    // to fetch allUsers 
     async function getAllUser() {
         try {
             const response = await axios({
@@ -25,7 +25,6 @@ const UserContextProvider = (props) => {
             console.error('getAllUser error', error)
         }
     }
-
 
     useEffect(() => {
         getAllUser()
