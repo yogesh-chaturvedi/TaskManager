@@ -31,17 +31,19 @@ const signupController = async (req, res) => {
 
         // Send success response
         res.status(201).json({
-            success: true, message: "Signup successful!", user: {
+            message: "Signup successful!", user: {
                 id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
             },
+            success: true
         });
-    } catch (err) {
-        console.error("Signup error:", err.message);
+    } catch (error) {
+        console.error("Signup error:", error);
         res.status(500).json({
-            success: false,
             message: "Internal Server Error",
+            success: false,
+            error
         });
     }
 };
@@ -56,8 +58,8 @@ const loginController = async (req, res) => {
         const isPresent = await UserModel.findOne({ email });
         if (!isPresent) {
             return res.status(400).json({
-                success: false,
                 message: "No User Found.",
+                success: false
             });
         }
 
@@ -66,8 +68,8 @@ const loginController = async (req, res) => {
 
         if (!isMatch) {
             return res.status(400).json({
-                success: false,
                 message: "Incorrect Password.",
+                success: false,
             });
         }
 
@@ -88,11 +90,12 @@ const loginController = async (req, res) => {
         // Send success response
         res.status(200).json({ message: 'Login Successfull', success: true, UserData: { _id, name, role } })
 
-    } catch (err) {
-        console.error("Signup error:", err.message);
+    } catch (error) {
+        console.error("Signup error:", error);
         res.status(500).json({
-            success: false,
             message: "Internal Server Error",
+            success: false,
+            error
         });
     }
 };
@@ -111,11 +114,12 @@ const logoutController = async (req, res) => {
         // Send success response
         res.status(200).json({ message: 'Logout Successfull', success: true })
 
-    } catch (err) {
-        console.error("logout error:", err.message);
+    } catch (error) {
+        console.error("logout error:", error);
         res.status(500).json({
-            success: false,
             message: "Internal Server Error",
+            success: false,
+            error
         });
     }
 };

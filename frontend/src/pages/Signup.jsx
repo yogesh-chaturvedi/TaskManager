@@ -47,6 +47,17 @@ const Signup = () => {
         }
         catch (error) {
             console.error('error', error);
+            const message = error?.response?.data?.error?.details[0]?.message || error?.response?.data?.message;
+            toast(message, {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
     }
 
