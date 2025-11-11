@@ -11,36 +11,8 @@ const Navbar = () => {
 
     const [open, setOpen] = useState(false)
 
-    const { user, setUser, loading, setLoading, fetchUser } = useContext(AuthContext)
+    const { user, setUser, loading, setLoading, fetchUser,handleLogout } = useContext(AuthContext)
 
-    // logout function
-    async function handleLogout() {
-        try {
-            const response = await axios({
-                method: 'post',
-                url: `${import.meta.env.VITE_BASE_URL}auth/logout`,
-                withCredentials: true
-            })
-            const { message, success } = response.data;
-            if (success) {
-                setUser(null)
-                toast(message, {
-                    position: "top-center",
-                    autoClose: 500,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                navigate('/login')
-            }
-        }
-        catch (error) {
-            console.error('Logout Error', error);
-        }
-    }
 
     function handleOpen() {
         if (open == true) {
@@ -51,6 +23,12 @@ const Navbar = () => {
         }
     }
 
+    // logout function
+    async function logout() {
+        handleLogout();
+    }
+
+    // it will navigate to profile route 
     function handleProfile() {
         navigate('/profile')
     }
@@ -99,9 +77,8 @@ const Navbar = () => {
                                 </button>
 
                                 <button
-                                    onClick={handleLogout}
-                                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-all duration-200 text-sm mt-1"
-                                >
+                                    onClick={() => { logout() }}
+                                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-all duration-200 text-sm mt-1">
                                     <LogOut size={16} /> Logout
                                 </button>
                             </div>

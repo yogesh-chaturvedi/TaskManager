@@ -3,13 +3,15 @@ import Navbar from '../components/Navbar'
 import { TaskContext } from '../context/TasksContext'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
 const Home = () => {
 
 
   const { allTasks, setAllTasks, getTasks } = useContext(TaskContext);
   const [searchedText, setSearchedText] = useState('')
+
+  const [taskCard, setTaskCard] = useState(null);
 
   const [stats, setStats] = useState([
     { id: 1, title: "New Tasks", number: 0 },
@@ -48,7 +50,7 @@ const Home = () => {
     }
   }
 
-
+  // to fetch data from backend 
   useEffect(() => {
 
     const New = allTasks.filter(t => t.taskStatus === "New").length;
@@ -97,12 +99,22 @@ const Home = () => {
   }
 
 
+  function handleOpenCard(taskIndex) {
+    console.log(taskIndex);
+    setTaskCard(taskIndex);
+  }
+
+
+  function handleCloseCard() {
+    setTaskCard(null);
+  }
+
   return (
     <div>
       <Navbar />
 
       {/* home */}
-      <div className='bg-black flex flex-col gap-5 px-4 sm:px-8 md:px-16 py-5 min-h-[calc(100vh-70px)]'>
+      <div className='relative bg-black flex flex-col gap-5 px-4 sm:px-8 md:px-16 py-5 min-h-[calc(100vh-70px)]'>
 
         {/* work status */}
         <div className='flex flex-wrap justify-between gap-4'>
@@ -146,8 +158,9 @@ const Home = () => {
             <div className='flex flex-wrap max-h-[355px] overflow-y-auto gap-4 justify-start'>
               {allTasks.map((task, index) => (
                 <div
+                  onClick={() => { handleOpenCard(index) }}
                   key={index}
-                  className="bg-gray-900 text-gray-200 shadow-md rounded-2xl p-5 border border-gray-700 hover:shadow-lg transition-all duration-300 w-full sm:w-[48%] md:w-[32%] flex-shrink-0"
+                  className=" border border-gray-700  bg-gray-900 text-gray-200 shadow-md rounded-2xl p-5  hover:shadow-lg transition-all duration-300 w-full sm:w-[48%] md:w-[32%] flex-shrink-0"
                 >
                   {/* 🔹 Top Section */}
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2 sm:gap-0">
@@ -169,9 +182,7 @@ const Home = () => {
 
                   {/* 🔹 Title & Description */}
                   <h2 className="text-lg font-semibold text-white">{task.taskTitle}</h2>
-                  <p className="text-gray-400 text-sm mt-2 overflow-x-auto break-words">
-                    {task.taskDescription}
-                  </p>
+                  <p className="text-gray-400 text-sm mt-2 truncate ">{task.taskDescription}</p>
 
                   {/* 🔹 Action Buttons */}
                   <div className="flex flex-wrap gap-2 justify-between mt-5">
@@ -199,6 +210,66 @@ const Home = () => {
           )}
         </div>
       </div>
+
+
+      {/* popup card */}
+      {taskCard !== null && (<div className="absolute z-50 top-44 left-1/2 -translate-x-1/2 w-full flex items-center justify-center min-h-[550px]">
+
+        <div
+          className=" border border-gray-700 bg-gray-900 text-gray-200 shadow-md rounded-2xl p-5 hover:shadow-lg transition-all  duration-300 w-full sm:w-[48%] md:w-[50%] flex-shrink-0">
+
+          {/* close button */}
+          <div className='flex justify-end'>
+            <button onClick={() => { handleCloseCard() }} className="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-md transition-all duration-300 "><X size={18} /></button>
+          </div>
+
+          {/* 🔹 Top Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2 sm:gap-0">
+            <div className='flex gap-3 items-center flex-wrap'>
+              <span className="bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full">
+                {allTasks[taskCard].taskCategory}
+              </span>
+              <button
+                onClick={() => handleStatus(allTasks[taskCard]._id, 'In Progress')}
+                className="bg-red-500 text-white text-xs px-2 py-1 rounded-lg hover:bg-red-600 transition"
+              >
+                Mark as Read
+              </button>
+            </div>
+            <span className="text-sm text-gray-400">
+              {new Date(allTasks[taskCard].date).toLocaleDateString('en-IN')}
+            </span>
+          </div>
+
+
+          {/* 🔹 Title & Description */}
+          <h2 className="text-lg font-semibold text-white">{allTasks[taskCard].taskTitle}</h2>
+          <p className="text-gray-400 text-lg mt-2 max-h-[300px] overflow-y-auto break-words">{allTasks[taskCard].taskDescription} </p>
+
+          {/* 🔹 Action Buttons */}
+          <div className="flex flex-wrap gap-2 justify-between mt-5">
+            <button
+              onClick={() => handleStatus(allTasks[taskCard]._id, 'Completed')}
+              className={`${allTasks[taskCard].taskStatus === 'Completed' ? 'bg-gray-500 line-through' : 'bg-green-500 hover:bg-green-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
+            >Mark as Completed</button>
+
+            <button
+              onClick={() => handleStatus(allTasks[taskCard]._id, 'In Progress')}
+              className={`${allTasks[taskCard].taskStatus === 'In Progress' ? 'bg-gray-500 line-through' : 'bg-yellow-500 hover:bg-yellow-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
+            >In Progress
+            </button>
+
+            <button
+              onClick={() => handleStatus(allTasks[taskCard]._id, 'Failed')}
+              className={`${allTasks[taskCard].taskStatus === 'Failed' ? 'bg-gray-500 line-through' : 'bg-red-500 hover:bg-red-600'} text-white text-sm px-3 py-2 rounded-lg transition`}
+            >Mark as Failed
+            </button>
+          </div>
+        </div>
+
+      </div>)}
+
+
     </div>
 
   )
